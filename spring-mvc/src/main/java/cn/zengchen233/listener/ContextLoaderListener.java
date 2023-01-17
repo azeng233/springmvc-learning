@@ -14,7 +14,7 @@ import javax.servlet.annotation.WebListener;
  * @description TODO
  * @create 2023/1/16 10:23
  */
-@WebListener
+//@WebListener
 public class ContextLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {

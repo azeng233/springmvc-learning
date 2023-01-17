@@ -1,8 +1,9 @@
 package cn.zengchen233.web;
 
-import cn.zengchen233.listener.WebApplicationContextUtils;
 import cn.zengchen233.service.UserService;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -24,7 +25,8 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletContext context = this.getServletContext();
         //ApplicationContext app = (ApplicationContext) context.getAttribute("app");
-        ApplicationContext app = WebApplicationContextUtils.getWebApp(context);
+        //ApplicationContext app = WebApplicationContextUtils.getWebApp(context);
+        ApplicationContext app = WebApplicationContextUtils.getWebApplicationContext(context);
         UserService bean = app.getBean(UserService.class);
         bean.save();
     }
