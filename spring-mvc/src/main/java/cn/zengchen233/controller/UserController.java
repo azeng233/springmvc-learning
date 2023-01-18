@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @create 2023/1/17 10:05
  */
 @Controller
+@RequestMapping("/user")
 public class UserController {
+    //请求地址 http://localhost:8080/quick
     @RequestMapping("/quick")
     public String save() {
         System.out.println("Controller save money...");
-        return "success.jsp";
+        return "success";
     }
 }
