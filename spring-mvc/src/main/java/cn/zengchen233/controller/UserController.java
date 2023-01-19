@@ -1,11 +1,16 @@
 package cn.zengchen233.controller;
 
+import cn.zengchen233.pojo.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author zengchen
@@ -60,5 +65,55 @@ public class UserController {
     public String save5(HttpServletRequest req) {
         req.setAttribute("username","爷爷");
         return "success";
+    }
+
+    @RequestMapping("/e")
+    public void save6(HttpServletResponse resp) throws IOException {
+        resp.getWriter().print("<h1>Hello World!</h1>");
+    }
+
+    /**
+     * @description: @ResponseBody告知SpringMVC框架不进行视图跳转 直接进行数据相应
+     * @param
+     * @return: java.lang.String
+     */
+    @RequestMapping("/f")
+    @ResponseBody
+    public String save7() {
+        return "<h1>Hello World!</h1>";
+    }
+
+    /**
+     * @description: @ResponseBody告知SpringMVC框架不进行视图跳转 直接进行数据相应
+     * @param
+     * @return: java.lang.String
+     */
+    @RequestMapping("/g")
+    @ResponseBody
+    public String save8() {
+        return "{\"username\":\"zengchen\",\"age\":21}";
+    }
+
+    @RequestMapping("/h")
+    @ResponseBody
+    public String save9(HttpServletRequest req) throws IOException {
+        req.setCharacterEncoding("utf-8");
+        User user = new User("zcc", 22);
+        //使用json转换工具将对象转换成json格式字符串
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(user);
+        return json;
+    }
+
+    /*
+     * @description: 期望SpringMVC自动将User转化成json格式字符串
+     * @param
+     * @return: cn.zengchen233.pojo.User
+     */
+    @RequestMapping("/i")
+    @ResponseBody
+    public User save10() {
+        User user = new User("zengchen", 21);
+        return user;
     }
 }
