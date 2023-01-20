@@ -1,9 +1,11 @@
 package cn.zengchen233.controller;
 
 import cn.zengchen233.pojo.User;
+import cn.zengchen233.pojo.VO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author zengchen
@@ -115,5 +119,35 @@ public class UserController {
     public User save10() {
         User user = new User("zengchen", 21);
         return user;
+    }
+
+    @RequestMapping("/aa")
+    @ResponseBody
+    public void save11(String username, int age) {
+        System.out.println("username = " + username + ", age = " + age);
+    }
+
+    @RequestMapping("/bb")
+    @ResponseBody
+    public void save12(User user) {
+        System.out.println(user);
+    }
+
+    @RequestMapping("/cc")
+    @ResponseBody
+    public void save13(String[] str) {
+        System.out.println(Arrays.asList(str));
+    }
+
+    @RequestMapping("/dd")
+    @ResponseBody
+    public void save14(VO vo) {
+        System.out.println(vo);
+    }
+
+    @RequestMapping("/ee")
+    @ResponseBody
+    public void save15(@RequestBody List<User> list) {
+        System.out.println(list);
     }
 }
