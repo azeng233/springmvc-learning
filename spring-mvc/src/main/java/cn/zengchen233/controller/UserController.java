@@ -5,15 +5,16 @@ import cn.zengchen233.pojo.VO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -149,5 +150,52 @@ public class UserController {
     @ResponseBody
     public void save15(@RequestBody List<User> list) {
         System.out.println(list);
+    }
+
+    @RequestMapping("/ff")
+    @ResponseBody
+    public void save16(@RequestParam(value = "name", required = false, defaultValue = "sxm") String username) {
+        System.out.println(username);
+    }
+
+    /*
+     * @description: 请求路径必须要和@PathVariable里面的value一致
+     * @param name
+     * @return: void
+     */
+    @RequestMapping(value = "/gg/{name}", method = RequestMethod.GET)
+    @ResponseBody
+    public void save17(@PathVariable(value = "name", required = false) String name) {
+        System.out.println(name);
+    }
+
+    @RequestMapping("/hh")
+    @ResponseBody
+    public void save18(Date date) {
+        System.out.println(date);
+    }
+
+    @RequestMapping("/ii")
+    @ResponseBody
+    public void save19(HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+        System.out.println("req = " + req + ", resp = " + resp + ", session = " + session);
+    }
+
+    @RequestMapping("/aaa")
+    @ResponseBody
+    public void save20(@RequestHeader(value = "User-Agent", required = false) String user_agent) {
+        System.out.println(user_agent);
+    }
+
+    @RequestMapping("/bbb")
+    @ResponseBody
+    public void save21(@CookieValue(value = "JSESSIONID") String jsessionid) {
+        System.out.println(jsessionid);
+    }
+
+    @RequestMapping("/ccc")
+    @ResponseBody
+    public void save22(String name, MultipartFile file) {
+        System.out.println("name = " + name + ", file = " + file);
     }
 }
