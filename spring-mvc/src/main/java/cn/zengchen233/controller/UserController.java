@@ -3,6 +3,7 @@ package cn.zengchen233.controller;
 import cn.zengchen233.pojo.User;
 import cn.zengchen233.pojo.VO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -110,11 +112,11 @@ public class UserController {
         return json;
     }
 
-    /*
-     * @description: 期望SpringMVC自动将User转化成json格式字符串
-     * @param
-     * @return: cn.zengchen233.pojo.User
-     */
+    /**
+      * @description: 期望SpringMVC自动将User转化成json格式字符串
+      * @param
+      * @return: cn.zengchen233.pojo.User
+      */
     @RequestMapping("/i")
     @ResponseBody
     public User save10() {
@@ -158,11 +160,11 @@ public class UserController {
         System.out.println(username);
     }
 
-    /*
-     * @description: 请求路径必须要和@PathVariable里面的value一致
-     * @param name
-     * @return: void
-     */
+    /**
+      * @description: 请求路径必须要和@PathVariable里面的value一致
+      * @param name
+      * @return: void
+      */
     @RequestMapping(value = "/gg/{name}", method = RequestMethod.GET)
     @ResponseBody
     public void save17(@PathVariable(value = "name", required = false) String name) {
@@ -195,7 +197,27 @@ public class UserController {
 
     @RequestMapping("/ccc")
     @ResponseBody
-    public void save22(String name, MultipartFile file) {
-        System.out.println("name = " + name + ", file = " + file);
+    public void save22(String name, MultipartFile file1, MultipartFile file2) throws IOException {
+        System.out.println(name);
+        String filename1 = file1.getOriginalFilename();
+        file1.transferTo(new File("F:\\upload\\" + filename1));
+        String filename2 = file2.getOriginalFilename();
+        file2.transferTo(new File("F:\\upload\\" + filename2));
+    }
+
+    /**
+     * @description: 使用数组接受
+     * @param name
+     * @param files
+     * @return: void
+     */
+    @RequestMapping("/ddd")
+    @ResponseBody
+    public void save23(String name, MultipartFile @NotNull [] files) throws IOException {
+        System.out.println(name);
+        for (MultipartFile file : files) {
+            String filename = file.getOriginalFilename();
+            file.transferTo(new File("F:\\upload\\" + filename));
+        }
     }
 }

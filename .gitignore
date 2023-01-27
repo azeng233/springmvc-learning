@@ -1,3 +1,5 @@
 /.idea/
 /out/
 /spring-mvc/target/
+/spring-mvc-interceptor/target/
+/spring-test/target/
