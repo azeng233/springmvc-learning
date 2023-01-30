@@ -12,6 +12,7 @@
         <module>spring-mvc</module>
         <module>spring-mvc-interceptor</module>
         <module>spring-test</module>
+        <module>spring-exception</module>
     </modules>
 
     <properties>
