@@ -125,7 +125,7 @@
 						<div class="col-md-10 data">
 
 							<c:forEach items="${roleList}" var="role">
-								<input class="" type="checkbox" name="roleId" value="${role.id}">${role.roleName}
+								<input class="" type="checkbox" name="roleIds" value="${role.id}">${role.roleName}
 							</c:forEach>
 						</div>
 

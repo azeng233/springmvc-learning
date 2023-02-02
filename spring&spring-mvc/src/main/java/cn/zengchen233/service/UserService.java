@@ -13,5 +13,9 @@ import java.util.List;
 public interface UserService {
     List<User> list();
 
-    void save(User user, Long[] roleId);
+    void save(User user, Long[] roleIds);
+
+    void del(Long id);
+
+    User login(String username, String password);
 }

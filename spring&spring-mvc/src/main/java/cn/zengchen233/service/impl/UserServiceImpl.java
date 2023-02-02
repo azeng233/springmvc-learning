@@ -38,11 +38,21 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
-    public void save(User user, Long[] roleId) {
+    public void save(User user, Long[] roleIds) {
         //第一步 向sys_user存储数据
         Long userId = userDao.save(user);
 
         //第二步 向sys_user_role存储多余数据
-        userDao.saveUserRoleRelation(userId, roleId);
+        userDao.saveUserRoleRelation(userId, roleIds);
+    }
+
+    public void del(Long id) {
+        userDao.delUserRoleRelation(id);
+        userDao.del(id);
+    }
+
+    public User login(String username, String password) {
+        User user = userDao.login(username, password);
+        return user;
     }
 }

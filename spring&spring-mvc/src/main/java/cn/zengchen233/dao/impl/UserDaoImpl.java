@@ -2,12 +2,16 @@ package cn.zengchen233.dao.impl;
 
 import cn.zengchen233.dao.UserDao;
 import cn.zengchen233.pojo.User;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -33,13 +37,45 @@ public class UserDaoImpl implements UserDao {
      * @return: java.lang.Long
      */
     public Long save(User user) {
-        jdbcTemplate.update("insert into sys_user values (?,?,?,?,?)", null, user.getUsername(), user.getPassword(), user.getEmail(), user.getPhoneNum());
-        return 1L; // 返回当前保存用户的id
+        //创建PreparedStatementCreator
+        PreparedStatementCreator creator = new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+                //使用原始jdbc完成PreparedStatement组建
+                PreparedStatement statement = conn.prepareStatement("insert into sys_user values (?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+                statement.setObject(1, null);
+                statement.setString(2, user.getUsername());
+                statement.setString(3, user.getEmail());
+                statement.setString(4, user.getPassword());
+                statement.setString(5, user.getPhoneNum());
+                return statement;
+            }
+        };
+        //创建keyHolder
+        GeneratedKeyHolder holder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(creator, holder);
+
+        //获得生成的主键
+        return holder.getKey().longValue(); // 返回当前保存用户的id
     }
 
-    public void saveUserRoleRelation(Long userId, Long[] roleId) {
-        for (Long aLong : roleId) {
+    public void saveUserRoleRelation(Long userId, Long[] roleIds) {
+        for (Long roleId : roleIds) {
             jdbcTemplate.update("insert into sys_user_role values(?,?)", userId, roleId);
         }
+    }
+
+    public void delUserRoleRelation(Long id) {
+        jdbcTemplate.update("delete from sys_user_role where userId=?", id);
+    }
+
+    public void del(Long id) {
+        jdbcTemplate.update("delete from sys_user where id=?", id);
+    }
+
+    public User login(String username, String password) {
+        User user = jdbcTemplate.queryForObject("select * from sys_user where username = ? and password = ?", new BeanPropertyRowMapper<User>(User.class), username, password);
+        return user;
     }
 }

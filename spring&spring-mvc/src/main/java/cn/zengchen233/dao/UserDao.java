@@ -15,5 +15,11 @@ public interface UserDao {
 
     Long save(User user);
 
-    void saveUserRoleRelation(Long userId, Long[] roleId);
+    void saveUserRoleRelation(Long userId, Long[] roleIds);
+
+    void delUserRoleRelation(Long id);
+
+    void del(Long id);
+
+    User login(String username, String password);
 }
